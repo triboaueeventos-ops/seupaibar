@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Seu Pai Bar</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #0a1628; color: #fff; min-height: 100vh; }
+
+  /* ── LOGIN ── */
+  #tela-login {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; padding: 24px;
+  }
+  .login-box {
+    background: #122040; border: 1px solid #1e3a6e; border-radius: 16px;
+    padding: 40px; width: 100%; max-width: 360px; text-align: center;
+  }
+  .login-box h2 { color: #42A5F5; margin-bottom: 8px; }
+  .login-box p { color: #90CAF9; font-size: 0.9rem; margin-bottom: 28px; }
+  .login-box input {
+    width: 100%; padding: 12px 16px; border-radius: 8px;
+    border: 1px solid #1e3a6e; background: #0a1628; color: #fff;
+    font-size: 1rem; margin-bottom: 16px;
+  }
+  .login-box button {
+    width: 100%; padding: 12px; border-radius: 8px; border: none;
+    background: #1565C0; color: #fff; font-size: 1rem; font-weight: 700;
+    cursor: pointer;
+  }
+  .login-box button:hover { background: #1976D2; }
+  .erro-login { color: #EF5350; font-size: 0.85rem; margin-top: 12px; display: none; }
+
+  /* ── PAINEL ── */
+  #tela-painel { display: none; padding: 24px; }
+  .topo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; flex-wrap: wrap; gap: 8px; }
+  h1 { color: #42A5F5; font-size: 1.6rem; }
+  .btn-sair { background: #1e3a6e; border: none; color: #90CAF9; padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; }
+  .sub { color: #90CAF9; font-size: 0.9rem; margin-bottom: 24px; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-bottom: 28px; }
+  .card { background: #122040; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid #1e3a6e; }
+  .card .num { font-size: 2.4rem; font-weight: 700; color: #42A5F5; }
+  .card .label { font-size: 0.8rem; color: #90CAF9; margin-top: 4px; }
+  .card.green .num { color: #25D366; }
+  .card.orange .num { color: #FFB300; }
+
+  .toolbar { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+  .toolbar select, .toolbar input {
+    background: #122040; border: 1px solid #1e3a6e; color: #fff;
+    padding: 8px 12px; border-radius: 8px; font-size: 0.9rem;
+  }
+  .btn { padding: 8px 18px; border-radius: 8px; border: none; cursor: pointer; font-size: 0.9rem; font-weight: 600; }
+  .btn-refresh { background: #1565C0; color: #fff; }
+  .btn-csv { background: #25D366; color: #fff; }
+  .btn-refresh:hover { background: #1976D2; }
+  .btn-csv:hover { background: #1EB858; }
+
+  .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid #1e3a6e; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  thead { background: #1565C0; }
+  th { padding: 12px 14px; text-align: left; font-weight: 600; white-space: nowrap; }
+  tbody tr { border-bottom: 1px solid #1e3a6e; }
+  tbody tr:hover { background: #122040; }
+  td { padding: 10px 14px; color: #CBD5E1; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; }
+  .badge-reserva { background: #1565C020; color: #42A5F5; border: 1px solid #1565C0; }
+  .badge-whats  { background: #25D36620; color: #25D366; border: 1px solid #25D366; }
+  .empty, .loading { text-align: center; padding: 40px; color: #64748B; }
+
+  .pagination { display: flex; gap: 8px; justify-content: center; margin-top: 16px; flex-wrap: wrap; align-items: center; }
+  .pg-btn { background: #122040; border: 1px solid #1e3a6e; color: #fff; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; }
+  .pg-btn.active { background: #1565C0; border-color: #1565C0; }
+  .pg-btn:hover { background: #1e3a6e; }
+  .info-pg { color: #64748B; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+
+<!-- TELA DE LOGIN -->
+<div id="tela-login">
+  <div class="login-box">
+    <h2>🔐 Área Restrita</h2>
+    <p>Seu Pai Bar & Drinkeria — Painel Admin</p>
+    <input type="password" id="campo-senha" placeholder="Digite a senha" onkeydown="if(event.key==='Enter')entrar()">
+    <button onclick="entrar()">Entrar</button>
+    <p class="erro-login" id="erro-login">Senha incorreta. Tente novamente.</p>
+  </div>
+</div>
+
+<!-- TELA DO PAINEL -->
+<div id="tela-painel">
+  <div class="topo">
+    <h1>📊 Painel — Seu Pai Bar</h1>
+    <button class="btn-sair" onclick="sair()">🚪 Sair</button>
+  </div>
+  <p class="sub">Rastreamento de cliques e reservas</p>
+
+  <div class="cards">
+    <div class="card"><div class="num" id="total">—</div><div class="label">Total de interações</div></div>
+    <div class="card green"><div class="num" id="total-reserva">—</div><div class="label">Formulários enviados</div></div>
+    <div class="card orange"><div class="num" id="total-whats">—</div><div class="label">Cliques no WhatsApp</div></div>
+    <div class="card"><div class="num" id="hoje">—</div><div class="label">Interações hoje</div></div>
+  </div>
+
+  <div class="toolbar">
+    <select id="filtro-tipo" onchange="carregar()">
+      <option value="">Todos os tipos</option>
+      <option value="reserva_formulario">Formulário de reserva</option>
+      <option value="whatsapp_botao">Clique no WhatsApp</option>
+    </select>
+    <select id="filtro-disp" onchange="carregar()">
+      <option value="">Todos os dispositivos</option>
+      <option value="celular">Celular</option>
+      <option value="desktop">Desktop</option>
+    </select>
+    <input type="date" id="filtro-data" onchange="carregar()">
+    <button class="btn btn-refresh" onclick="carregar()">🔄 Atualizar</button>
+    <button class="btn btn-csv" onclick="exportarCSV()">⬇️ Exportar CSV</button>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>#</th><th>Tipo</th><th>Dispositivo</th><th>Data / Hora</th><th>Detalhes</th></tr>
+      </thead>
+      <tbody id="tabela-body">
+        <tr><td colspan="5" class="loading">Faça login para ver os dados.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pagination" id="paginacao"></div>
+</div>
+
+<script>
+let senhaAtual = '';
+let todos = [];
+let paginaAtual = 1;
+const POR_PAGINA = 20;
+
+function entrar() {
+  const senha = document.getElementById('campo-senha').value;
+  if (!senha) return;
+  senhaAtual = senha;
+  carregar();
+}
+
+function sair() {
+  senhaAtual = '';
+  todos = [];
+  document.getElementById('campo-senha').value = '';
+  document.getElementById('erro-login').style.display = 'none';
+  document.getElementById('tela-login').style.display = 'flex';
+  document.getElementById('tela-painel').style.display = 'none';
+}
+
+async function buscarDados() {
+  const tipo = document.getElementById('filtro-tipo').value;
+  const disp = document.getElementById('filtro-disp').value;
+  const data = document.getElementById('filtro-data').value;
+
+  let url = '/.netlify/functions/dados?senha=' + encodeURIComponent(senhaAtual);
+  if (tipo) url += '&tipo=' + encodeURIComponent(tipo);
+  if (disp) url += '&disp=' + encodeURIComponent(disp);
+  if (data) url += '&data=' + encodeURIComponent(data);
+
+  const r = await fetch(url);
+  if (r.status === 401) throw new Error('senha_errada');
+  return await r.json();
+}
+
+function atualizarCards(dados) {
+  const hoje = new Date().toISOString().slice(0, 10);
+  document.getElementById('total').textContent = dados.length;
+  document.getElementById('total-reserva').textContent = dados.filter(d => d.tipo === 'reserva_formulario').length;
+  document.getElementById('total-whats').textContent = dados.filter(d => d.tipo === 'whatsapp_botao').length;
+  document.getElementById('hoje').textContent = dados.filter(d => d.criado_em && d.criado_em.slice(0,10) === hoje).length;
+}
+
+function renderTabela(dados) {
+  const corpo = document.getElementById('tabela-body');
+  if (!dados.length) {
+    corpo.innerHTML = '<tr><td colspan="5" class="empty">Nenhum dado encontrado.</td></tr>';
+    document.getElementById('paginacao').innerHTML = '';
+    return;
+  }
+  const totalPag = Math.ceil(dados.length / POR_PAGINA);
+  if (paginaAtual > totalPag) paginaAtual = 1;
+  const inicio = (paginaAtual - 1) * POR_PAGINA;
+  const pagina = dados.slice(inicio, inicio + POR_PAGINA);
+
+  corpo.innerHTML = pagina.map((d, i) => {
+    const badge = d.tipo === 'reserva_formulario'
+      ? '<span class="badge badge-reserva">📋 Reserva</span>'
+      : '<span class="badge badge-whats">💬 WhatsApp</span>';
+    const dt = d.criado_em ? new Date(d.criado_em).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }) : '—';
+    const disp = d.dispositivo === 'celular' ? '📱 Celular' : '💻 Desktop';
+    const extra = d.extra ? `<span title="${d.extra}">${d.extra.substring(0,50)}${d.extra.length>50?'...':''}</span>` : '—';
+    return `<tr><td>${inicio+i+1}</td><td>${badge}</td><td>${disp}</td><td>${dt}</td><td>${extra}</td></tr>`;
+  }).join('');
+
+  // Paginação
+  const pg = document.getElementById('paginacao');
+  let html = `<span class="info-pg">${dados.length} registros | Pág. ${paginaAtual}/${totalPag}</span>`;
+  if (paginaAtual > 1) html += `<button class="pg-btn" onclick="irPag(${paginaAtual-1})">← Anterior</button>`;
+  for (let p = 1; p <= totalPag; p++) {
+    if (totalPag <= 7 || p===1 || p===totalPag || Math.abs(p-paginaAtual)<=1)
+      html += `<button class="pg-btn ${p===paginaAtual?'active':''}" onclick="irPag(${p})">${p}</button>`;
+    else if (Math.abs(p-paginaAtual)===2) html += `<span class="info-pg">...</span>`;
+  }
+  if (paginaAtual < totalPag) html += `<button class="pg-btn" onclick="irPag(${paginaAtual+1})">Próxima →</button>`;
+  pg.innerHTML = html;
+}
+
+function irPag(p) { paginaAtual = p; renderTabela(todos); window.scrollTo(0,0); }
+
+async function carregar() {
+  document.getElementById('tabela-body').innerHTML = '<tr><td colspan="5" class="loading">Carregando...</td></tr>';
+  try {
+    todos = await buscarDados();
+    // Senha correta — mostra o painel
+    document.getElementById('erro-login').style.display = 'none';
+    document.getElementById('tela-login').style.display = 'none';
+    document.getElementById('tela-painel').style.display = 'block';
+    atualizarCards(todos);
+    paginaAtual = 1;
+    renderTabela(todos);
+  } catch(e) {
+    if (e.message === 'senha_errada') {
+      document.getElementById('erro-login').style.display = 'block';
+    }
+  }
+}
+
+function exportarCSV() {
+  if (!todos.length) { alert('Nenhum dado para exportar.'); return; }
+  const header = ['#','Tipo','Dispositivo','Data/Hora','Detalhes'];
+  const linhas = todos.map((d,i) => [
+    i+1, d.tipo||'', d.dispositivo||'',
+    d.criado_em ? new Date(d.criado_em).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'}) : '',
+    d.extra ? '"'+d.extra.replace(/"/g,'""')+'"' : ''
+  ].join(','));
+  const csv = [header.join(','), ...linhas].join('\n');
+  const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'seupaibar_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+}
+</script>
+</body>
+</html>
