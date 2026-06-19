@@ -160,7 +160,7 @@ async function buscarDados() {
   const disp = document.getElementById('filtro-disp').value;
   const data = document.getElementById('filtro-data').value;
 
-  let url = '/.netlify/functions/dados?senha=' + encodeURIComponent(senhaAtual);
+  let url = '/api/dados?senha=' + encodeURIComponent(senhaAtual);
   if (tipo) url += '&tipo=' + encodeURIComponent(tipo);
   if (disp) url += '&disp=' + encodeURIComponent(disp);
   if (data) url += '&data=' + encodeURIComponent(data);
