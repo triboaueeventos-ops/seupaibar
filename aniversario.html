@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aniversário – Seu Pai Bar & Drinkeria</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --azul:#1565C0;--azul-medio:#1976D2;--azul-claro:#42A5F5;
+  --azul-bg:#0a1628;--azul-surface:#0e1e3a;--azul-card:#122040;
+  --muted:#90A4AE;--verde:#25D366;
+}
+body{font-family:'Montserrat',sans-serif;background:var(--azul-bg);color:#fff;overflow-x:hidden;}
+
+.hero{min-height:92vh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:70px 20px 50px;overflow:hidden;background:radial-gradient(ellipse at 50% 0%,rgba(21,101,192,0.35) 0%,transparent 60%);}
+.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,22,40,0) 0%,rgba(10,22,40,0.6) 70%,var(--azul-bg) 100%);z-index:0;}
+.hero>*{position:relative;z-index:2;}
+
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(21,101,192,0.4);border:1px solid rgba(66,165,245,0.6);color:var(--azul-claro);font-size:11px;font-weight:700;letter-spacing:2px;padding:8px 20px;border-radius:30px;text-transform:uppercase;margin-bottom:22px;backdrop-filter:blur(4px);}
+.pretitle{font-family:'Oswald',sans-serif;font-size:clamp(13px,3.5vw,17px);letter-spacing:6px;text-transform:uppercase;color:rgba(255,255,255,0.8);margin-bottom:10px;font-weight:400;}
+h1{font-family:'Oswald',sans-serif;font-size:clamp(40px,11vw,76px);font-weight:700;line-height:0.98;color:#fff;text-transform:uppercase;margin-bottom:6px;letter-spacing:-1px;text-shadow:0 2px 20px rgba(0,0,0,0.5);}
+h1 .d{color:var(--azul-claro);}
+.sub{font-size:clamp(13px,3vw,15px);color:rgba(255,255,255,0.75);max-width:460px;margin:14px auto 0;line-height:1.7;text-shadow:0 1px 8px rgba(0,0,0,0.4);}
+
+.btns{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:30px;}
+.btn-r{background:var(--azul);color:#fff;font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;letter-spacing:1px;padding:17px 34px;border-radius:50px;text-decoration:none;text-transform:uppercase;border:2px solid var(--azul-claro);transition:all 0.2s;display:inline-block;}
+.btn-r:hover{background:var(--azul-medio);transform:translateY(-2px);}
+
+.sec{padding:56px 20px;max-width:680px;margin:0 auto;}
+.sec-hdr{text-align:center;margin-bottom:36px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:3px;color:var(--azul-claro);text-transform:uppercase;margin-bottom:10px;}
+.sec-title{font-family:'Oswald',sans-serif;font-size:clamp(26px,6vw,40px);font-weight:700;color:#fff;text-transform:uppercase;line-height:1.1;}
+.sec-title span{color:var(--azul-claro);}
+.sec-line{width:50px;height:3px;background:var(--azul-medio);margin:14px auto 0;border-radius:2px;}
+.sep{height:1px;background:rgba(21,101,192,0.15);margin:0 20px;}
+
+.dif-box{background:var(--azul-surface);border:1px solid rgba(21,101,192,0.35);border-radius:22px;padding:32px 26px;}
+.dif-item{display:flex;align-items:flex-start;gap:14px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:15px;color:#CBD5E1;line-height:1.4;}
+.dif-item:last-child{border-bottom:none;padding-bottom:0;}
+.dif-ck{width:28px;height:28px;border-radius:50%;background:rgba(21,101,192,0.3);border:1px solid var(--azul-medio);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--azul-claro);font-size:14px;font-weight:900;}
+
+.form-box{background:var(--azul-surface);border:1px solid rgba(21,101,192,0.4);border-radius:22px;padding:36px 24px;}
+.form-box h2{font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;color:#fff;margin-bottom:6px;text-align:center;}
+.form-box p{font-size:13px;color:var(--muted);text-align:center;margin-bottom:28px;line-height:1.6;}
+.fr{margin-bottom:14px;}
+.fr label{display:block;font-size:11px;font-weight:700;color:var(--azul-claro);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;}
+.fr input,.fr select{width:100%;background:var(--azul-card);border:1px solid rgba(21,101,192,0.4);border-radius:12px;padding:14px 16px;color:#fff;font-size:15px;font-family:'Montserrat',sans-serif;outline:none;transition:border-color 0.2s;}
+.fr input:focus,.fr select:focus{border-color:var(--azul-claro);}
+.fr select option{background:#0e1e3a;}
+.btn-form{width:100%;background:var(--verde);color:#fff;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;letter-spacing:1px;padding:18px;border-radius:50px;border:none;cursor:pointer;text-transform:uppercase;margin-top:10px;transition:all 0.2s;}
+.btn-form:hover{background:#1ebe5a;transform:translateY(-2px);}
+.msg-ok{display:none;text-align:center;color:var(--verde);font-size:13px;margin-top:14px;font-weight:600;}
+
+footer{background:#060e1f;border-top:1px solid rgba(21,101,192,0.3);padding:44px 20px 28px;text-align:center;}
+.ft-nome{font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;color:var(--azul-claro);letter-spacing:3px;text-transform:uppercase;margin-bottom:4px;}
+.ft-slogan{font-size:13px;color:var(--muted);margin-bottom:28px;}
+.ft-btns{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:18px;}
+.ft-btn{color:#90A4AE;text-decoration:none;font-size:13px;padding:9px 18px;border:1px solid rgba(21,101,192,0.3);border-radius:30px;transition:all 0.2s;display:flex;align-items:center;gap:6px;}
+.ft-btn:hover{color:var(--azul-claro);border-color:var(--azul-claro);}
+.ft-copy{font-size:11px;color:#2D3748;letter-spacing:1px;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">🎉 Aniversários & Festas</div>
+  <div class="pretitle">Vai comemorar?</div>
+  <h1>FESTEJE NO<br><span class="d">SEU PAI BAR</span></h1>
+  <p class="sub">Conte pra gente a data e quantas pessoas vêm comemorar com você. A gente garante o espaço com vista pra Lagoa da Pampulha! 🥳</p>
+  <div class="btns">
+    <a href="#aniversario" class="btn-r">🎂 Quero Comemorar Aqui</a>
+  </div>
+</div>
+
+<div class="sec" id="aniversario">
+  <div class="sec-hdr">
+    <div class="eyebrow">Garanta sua festa</div>
+    <div class="sec-title">Confirme seu <span>Aniversário</span></div>
+    <div class="sec-line"></div>
+  </div>
+  <div class="form-box">
+    <h2>Conta pra gente! 🎈</h2>
+    <p>Preencha abaixo e enviamos sua confirmação direto pelo WhatsApp. Rápido e fácil! 💙</p>
+    <div class="fr"><label>Nome do(a) Aniversariante</label><input type="text" id="f-nome" placeholder="Nome completo"></div>
+    <div class="fr"><label>Quantidade Estimada de Pessoas</label>
+      <select id="f-pessoas">
+        <option value="">Selecione</option>
+        <option>1 a 10 pessoas</option>
+        <option>11 a 20 pessoas</option>
+        <option>21 a 40 pessoas</option>
+        <option>Mais de 40 pessoas</option>
+      </select>
+    </div>
+    <div class="fr"><label>Data da Comemoração</label><input type="date" id="f-data"></div>
+    <button class="btn-form" onclick="enviarAniversario()">🎉 Confirmar Aniversário</button>
+    <div class="msg-ok" id="msg-ok">✅ Recebemos seus dados! Abrindo o WhatsApp...</div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<div class="sec">
+  <div class="dif-box">
+    <div class="dif-item"><div class="dif-ck">✓</div>Vista privilegiada da Lagoa da Pampulha</div>
+    <div class="dif-item"><div class="dif-ck">✓</div>Música ao vivo toda semana — pagode, sertanejo e muito mais</div>
+    <div class="dif-item"><div class="dif-ck">✓</div>Espaço ideal para grupos grandes e confraternizações</div>
+    <div class="dif-item"><div class="dif-ck">✓</div>Estacionamento gratuito</div>
+  </div>
+</div>
+
+<footer>
+  <div class="ft-nome">Seu Pai Bar &amp; Drinkeria</div>
+  <div class="ft-slogan">💙 A casa oficial do pai de todos!</div>
+  <div class="ft-btns">
+    <a href="https://www.instagram.com/seupaibar/" target="_blank" class="ft-btn">📸 @seupaibar</a>
+    <a href="https://wa.me/553136572609" target="_blank" class="ft-btn">💬 WhatsApp</a>
+    <a href="https://maps.google.com/?q=Av.+Otac%C3%ADlio+Negr%C3%A3o+de+Lima,+17736,+Belo+Horizonte,+MG" target="_blank" class="ft-btn">📍 Localização</a>
+  </div>
+  <div class="ft-copy">© 2026 SEU PAI BAR &amp; DRINKERIA — TODOS OS DIREITOS RESERVADOS</div>
+</footer>
+
+<script>
+function dispositivo(){
+  return /Mobi|Android/i.test(navigator.userAgent) ? 'celular' : 'desktop';
+}
+
+async function salvarClique(tipo, extra){
+  try {
+    await fetch('/api/registrar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tipo, dispositivo: dispositivo(), extra: extra || null })
+    });
+  } catch(e){}
+}
+
+// Rastrear cliques nos botões de WhatsApp do rodapé
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('a[href*="wa.me"]').forEach(function(el){
+    el.addEventListener('click', function(){
+      salvarClique('whatsapp_botao');
+    });
+  });
+});
+
+// ── Formulário de Aniversário ─────────────────────────────────
+async function enviarAniversario(){
+  var nome = document.getElementById('f-nome').value.trim();
+  var pessoas = document.getElementById('f-pessoas').value;
+  var data = document.getElementById('f-data').value;
+
+  if(!nome || !pessoas || !data){
+    alert('Por favor, preencha todos os campos.');
+    return;
+  }
+
+  var dataFmt = data ? new Date(data + 'T12:00:00').toLocaleDateString('pt-BR') : '';
+
+  // Salva no banco de dados (mesma tabela "cliques", tipo = aniversario_formulario)
+  await salvarClique('aniversario_formulario', nome + ' | ' + pessoas + ' | ' + dataFmt);
+
+  // Mostra confirmação visual
+  document.getElementById('msg-ok').style.display = 'block';
+
+  // Monta e abre a mensagem no WhatsApp
+  var msg = 'Ol%C3%A1!%20Quero%20comemorar%20meu%20anivers%C3%A1rio%20no%20Seu%20Pai%20Bar!%20%F0%9F%8E%89%0A%0A';
+  msg += '%F0%9F%91%A4%20Nome%3A%20' + encodeURIComponent(nome) + '%0A';
+  msg += '%F0%9F%91%A5%20Convidados%3A%20' + encodeURIComponent(pessoas) + '%0A';
+  msg += '%F0%9F%93%85%20Data%3A%20' + encodeURIComponent(dataFmt);
+
+  setTimeout(function(){
+    window.open('https://wa.me/553136572609?text=' + msg, '_blank');
+  }, 400);
+}
+</script>
+</body>
+</html>
