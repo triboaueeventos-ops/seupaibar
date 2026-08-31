@@ -252,7 +252,7 @@ footer a { color: #42A5F5; text-decoration: none; }
       <input type="tel" id="aniv-wpp" placeholder="(31) 99999-9999">
     </div>
     <div class="form-group">
-      <label>Data do aniversário *</label>
+      <label>Data da comemoração *</label>
       <input type="date" id="aniv-data">
     </div>
     <div class="form-group">
@@ -277,7 +277,7 @@ footer a { color: #42A5F5; text-decoration: none; }
 </section>
 
 <footer>
-  <p style="margin-bottom:14px;"><a href="https://wa.me/553136572609" target="_blank">💬 WhatsApp</a> &nbsp;|&nbsp; <a href="https://www.instagram.com/seupaibar/" target="_blank">📸 @seupaibar</a> &nbsp;|&nbsp; <a href="/happy-hour.html">🍻 Confira nosso Happy Hour</a></p>
+  <p style="margin-bottom:14px;"><a href="https://wa.me/5531998423183" target="_blank">💬 WhatsApp</a> &nbsp;|&nbsp; <a href="https://www.instagram.com/seupaibar/" target="_blank">📸 @seupaibar</a> &nbsp;|&nbsp; <a href="/happy-hour.html">🍻 Confira nosso Happy Hour</a></p>
   <p>Seu Pai Bar &amp; Drinkeria — Av. Otacílio Negrão de Lima, 17736, Jardim Atlântico, Belo Horizonte - MG, 31555-016</p>
   <p>Lagoa da Pampulha</p>
   <div style="border-radius:14px;overflow:hidden;margin:20px auto 0;max-width:600px;">
@@ -305,7 +305,7 @@ function enviarAniversario() {
 
   const dataFmt = data ? new Date(data + 'T12:00:00').toLocaleDateString('pt-BR') : '';
 
-  // Salvar no banco
+  // Log de clique (analytics)
   try {
     fetch('/api/registrar', {
       method: 'POST',
@@ -318,16 +318,25 @@ function enviarAniversario() {
     });
   } catch(e) {}
 
+  // Salva o lead direto no CRM (crm.seupaibar.com.br) e já marca como Interessado no pipeline
+  try {
+    fetch('https://crm.seupaibar.com.br/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nome, wpp, data, pessoas })
+    });
+  } catch(e) {}
+
   const msg = `Olá! Quero reservar meu aniversário no Seu Pai Bar! 🎂🎉
 
 👤 Nome: ${nome}
 📱 WhatsApp: ${wpp}
-📅 Data: ${dataFmt}
+📅 Data da comemoração: ${dataFmt}
 👥 Estimativa de convidados: ${pessoas}
 
 Gostaria de mais informações sobre os benefícios e disponibilidade!`;
 
-  window.open('https://wa.me/553136572609?text=' + encodeURIComponent(msg), '_blank');
+  window.open('https://wa.me/5531998423183?text=' + encodeURIComponent(msg), '_blank');
 }
 </script>
 </body>
