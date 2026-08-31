@@ -248,10 +248,6 @@ footer a { color: #42A5F5; text-decoration: none; }
       <input type="text" id="aniv-nome" placeholder="Nome do aniversariante">
     </div>
     <div class="form-group">
-      <label>Seu WhatsApp *</label>
-      <input type="tel" id="aniv-wpp" placeholder="(31) 99999-9999">
-    </div>
-    <div class="form-group">
       <label>Data da comemoração *</label>
       <input type="date" id="aniv-data">
     </div>
@@ -294,11 +290,10 @@ footer a { color: #42A5F5; text-decoration: none; }
 <script>
 function enviarAniversario() {
   const nome = document.getElementById('aniv-nome').value.trim();
-  const wpp = document.getElementById('aniv-wpp').value.trim();
   const data = document.getElementById('aniv-data').value;
   const pessoas = document.getElementById('aniv-pessoas').value;
 
-  if (!nome || !wpp || !data || !pessoas) {
+  if (!nome || !data || !pessoas) {
     alert('Por favor, preencha todos os campos!');
     return;
   }
@@ -313,24 +308,18 @@ function enviarAniversario() {
       body: JSON.stringify({
         tipo: 'aniversario_formulario',
         dispositivo: /Mobi|Android/i.test(navigator.userAgent) ? 'celular' : 'desktop',
-        extra: nome + ' | ' + wpp + ' | ' + pessoas + ' | ' + dataFmt
+        extra: nome + ' | ' + pessoas + ' | ' + dataFmt
       })
     });
   } catch(e) {}
 
-  // Salva o lead direto no CRM (crm.seupaibar.com.br) e já marca como Interessado no pipeline
-  try {
-    fetch('https://crm.seupaibar.com.br/api/lead', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nome, wpp, data, pessoas })
-    });
-  } catch(e) {}
+  // O número do WhatsApp é capturado automaticamente pelo CRM quando a
+  // mensagem chega (vem direto da API da Meta) — não precisa ser pedido
+  // aqui no formulário.
 
   const msg = `Olá! Quero reservar meu aniversário no Seu Pai Bar! 🎂🎉
 
 👤 Nome: ${nome}
-📱 WhatsApp: ${wpp}
 📅 Data da comemoração: ${dataFmt}
 👥 Estimativa de convidados: ${pessoas}
 
