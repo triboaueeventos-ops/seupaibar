@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2014011225917703');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2014011225917703&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aniversariante da Semana — Seu Pai Bar & Drinkeria</title>
@@ -20,7 +38,7 @@ body { font-family: 'Montserrat', sans-serif; background: #0a1628; color: #fff; 
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover; z-index: 0; opacity: 0.35;
 }
-.hero > * { position: relative; z-index: 1; }
+.hero > *:not(.hero-video) { position: relative; z-index: 1; }
 .hero::before {
   content: '';
   position: absolute; inset: 0;
@@ -224,6 +242,11 @@ footer a { color: #42A5F5; text-decoration: none; }
         <strong>Convite Personalizado</strong>
         <p>Criamos um convite com sua foto para enviar aos convidados — envie uma foto sua!</p>
       </div>
+      <div class="extra-item">
+        <div class="ico">🎈</div>
+        <strong>Balão Personalizado</strong>
+        <p>Decoração de balão com o nome do aniversariante</p>
+      </div>
     </div>
 
     <div class="aviso">
@@ -243,11 +266,7 @@ footer a { color: #42A5F5; text-decoration: none; }
       <input type="text" id="aniv-nome" placeholder="Nome do aniversariante">
     </div>
     <div class="form-group">
-      <label>Seu WhatsApp *</label>
-      <input type="tel" id="aniv-wpp" placeholder="(31) 99999-9999">
-    </div>
-    <div class="form-group">
-      <label>Data do aniversário *</label>
+      <label>Data da comemoração *</label>
       <input type="date" id="aniv-data">
     </div>
     <div class="form-group">
@@ -285,18 +304,17 @@ footer a { color: #42A5F5; text-decoration: none; }
 <script>
 function enviarAniversario() {
   const nome = document.getElementById('aniv-nome').value.trim();
-  const wpp = document.getElementById('aniv-wpp').value.trim();
   const data = document.getElementById('aniv-data').value;
   const pessoas = document.getElementById('aniv-pessoas').value;
 
-  if (!nome || !wpp || !data || !pessoas) {
+  if (!nome || !data || !pessoas) {
     alert('Por favor, preencha todos os campos!');
     return;
   }
 
   const dataFmt = data ? new Date(data + 'T12:00:00').toLocaleDateString('pt-BR') : '';
 
-  // Salvar no banco
+  // Log de clique (analytics)
   try {
     fetch('/api/registrar', {
       method: 'POST',
@@ -304,21 +322,30 @@ function enviarAniversario() {
       body: JSON.stringify({
         tipo: 'aniversario_formulario',
         dispositivo: /Mobi|Android/i.test(navigator.userAgent) ? 'celular' : 'desktop',
-        extra: nome + ' | ' + wpp + ' | ' + pessoas + ' | ' + dataFmt
+        extra: nome + ' | ' + pessoas + ' | ' + dataFmt
       })
     });
+  } catch(e) {}
+
+  // O número do WhatsApp é capturado automaticamente pelo CRM quando a
+  // mensagem chega (vem direto da API da Meta) — não precisa ser pedido
+  // aqui no formulário.
+
+  // Avisa o pixel da Meta que rolou uma conversão de verdade (preencheu o
+  // formulário), pra otimizar o anúncio pra esse tipo de gente
+  try {
+    if (typeof fbq === 'function') fbq('track', 'Lead');
   } catch(e) {}
 
   const msg = `Olá! Quero reservar meu aniversário no Seu Pai Bar! 🎂🎉
 
 👤 Nome: ${nome}
-📱 WhatsApp: ${wpp}
-📅 Data: ${dataFmt}
+📅 Data da comemoração: ${dataFmt}
 👥 Estimativa de convidados: ${pessoas}
 
 Gostaria de mais informações sobre os benefícios e disponibilidade!`;
 
-  window.open('https://wa.me/553136572609?text=' + encodeURIComponent(msg), '_blank');
+  window.open('https://wa.me/5531998423183?text=' + encodeURIComponent(msg), '_blank');
 }
 </script>
 </body>
