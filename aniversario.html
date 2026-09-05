@@ -29,7 +29,7 @@ body { font-family: 'Montserrat', sans-serif; background: #0a1628; color: #fff; 
 
 /* HERO */
 .hero {
-  min-height: 100vh;
+  min-height: calc(100vh - 92px);
   background: linear-gradient(160deg, #0a1628 0%, #1a0a2e 50%, #0a1628 100%);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   text-align: center; padding: 48px 24px; position: relative; overflow: hidden;
@@ -51,6 +51,18 @@ body { font-family: 'Montserrat', sans-serif; background: #0a1628; color: #fff; 
   animation: float 3s ease-in-out infinite;
 }
 @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+
+/* PISTA DE ROLAGEM — avisa que tem mais informação abaixo (condições,
+   vídeo do bar) sem precisar clicar em nada, só descer a página. */
+.scroll-cue {
+  margin-top: 32px; color: rgba(255,255,255,0.55);
+  font-family: 'Montserrat', sans-serif; font-size: 0.78rem; letter-spacing: 1px;
+  text-transform: uppercase; display: flex; flex-direction: column;
+  align-items: center; gap: 6px; cursor: pointer;
+  animation: scrollBounce 1.8s ease-in-out infinite;
+}
+.scroll-cue svg { width: 20px; height: 20px; }
+@keyframes scrollBounce { 0%,100% { transform: translateY(0); opacity: 0.5; } 50% { transform: translateY(8px); opacity: 1; } }
 
 .tag {
   display: inline-block;
@@ -246,6 +258,10 @@ body { padding-bottom: 92px; }
     <div class="value">🍹 1 Drink Grátis para você!</div>
   </div>
 
+  <div class="scroll-cue" onclick="window.scrollBy({top: window.innerHeight * 0.6, behavior: 'smooth'})">
+    <span>Role para ver mais</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+  </div>
 
 </section>
 
@@ -359,10 +375,9 @@ body { padding-bottom: 92px; }
 </div>
 
 <footer>
-  <p><a href="/">← Voltar ao site principal</a></p>
-  <br>
-  <p>Seu Pai Bar & Drinkeria — Av. Otacílio Negrão de Lima, 17736, Jardim Atlântico, BH-MG</p>
-  <p>Lagoa da Pampulha | <a href="https://instagram.com/seupaibar" target="_blank">@seupaibar</a></p>
+  <p style="margin-bottom:14px;"><a href="https://wa.me/553136572609" target="_blank">💬 WhatsApp</a> &nbsp;|&nbsp; <a href="https://www.instagram.com/seupaibar/" target="_blank">📸 @seupaibar</a> &nbsp;|&nbsp; <a href="/happy-hour.html">🍻 Confira nosso Happy Hour</a></p>
+  <p>Seu Pai Bar &amp; Drinkeria — Av. Otacílio Negrão de Lima, 17736, Jardim Atlântico, Belo Horizonte - MG, 31555-016</p>
+  <p>Lagoa da Pampulha</p>
   <p>📞 <a href="https://wa.me/553136572609" target="_blank">(31) 3657-2609</a></p>
   <p style="margin-bottom:2px;">🕒 Terça a sexta: 17h às 01h</p>
   <p style="margin-bottom:2px;">🕒 Sábado: 12h às 01h30</p>
@@ -375,6 +390,7 @@ body { padding-bottom: 92px; }
   <p style="font-size:10px;opacity:0.6">Promoção válida por tempo indeterminado, sujeita a alterações sem aviso prévio. Consulte disponibilidade.</p>
   <br>
   <p><a href="/privacidade.html">Política de Privacidade</a></p>
+  <p style="font-size:11px;color:#2D3748;letter-spacing:1px;margin-top:10px;">© 2026 SEU PAI BAR &amp; DRINKERIA — TODOS OS DIREITOS RESERVADOS</p>
 </footer>
 
 <script>
