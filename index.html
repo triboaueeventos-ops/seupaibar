@@ -173,6 +173,16 @@ footer {
 }
 footer a { color: #42A5F5; text-decoration: none; }
 
+/* CTA FIXO NO RODAPÉ DA TELA — sempre visível, mesmo rolando a página, pra
+   não depender de caber ou não na tela do celular. */
+.cta-fixa {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+  padding: 14px 20px calc(14px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(180deg, rgba(6,14,29,0) 0%, rgba(6,14,29,0.9) 45%, #060e1d 85%);
+}
+.cta-fixa .btn-reservar { width: 100%; margin: 0; }
+body { padding-bottom: 92px; }
+
 /* AÇÕES DO HERO (botões condições / endereço / vídeo / reservar) */
 .hero-actions {
   display: flex; flex-wrap: wrap; justify-content: center;
@@ -223,6 +233,13 @@ footer a { color: #42A5F5; text-decoration: none; }
 </head>
 <body>
 
+<!-- CTA FIXO: sempre visível, não depende de rolar até achar -->
+<div class="cta-fixa">
+  <button type="button" class="btn-reservar" onclick="document.getElementById('form-section').scrollIntoView({behavior:'smooth'})">
+    🎂 Quero Reservar Meu Aniversário
+  </button>
+</div>
+
 <!-- HERO -->
 <section class="hero">
 <video autoplay muted loop playsinline class="hero-video" id="bgVideo">
@@ -245,9 +262,6 @@ footer a { color: #42A5F5; text-decoration: none; }
     <button type="button" class="btn-pill" onclick="abrirVideo()">🎥 Conheça o bar</button>
   </div>
 
-  <button type="button" class="btn-reservar" onclick="document.getElementById('form-section').scrollIntoView({behavior:'smooth'})">
-    🎂 Quero Reservar Meu Aniversário
-  </button>
 </section>
 
 <!-- MODAL: CONDIÇÕES -->
