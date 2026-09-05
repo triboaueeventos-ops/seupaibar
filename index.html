@@ -388,6 +388,23 @@ function fecharModal(id) {
   document.body.style.overflow = '';
 }
 
+// Conta no Pixel da Meta quando alguém dá play no vídeo "Conheça o Bar" e
+// quando assiste até o final — só a ação, sem guardar quem é a pessoa. Só
+// conta o play uma vez (mesmo se a pessoa der pause/play de novo).
+(function () {
+  const video = document.getElementById('tourVideo');
+  if (!video) return;
+  let jaContouPlay = false;
+  video.addEventListener('play', function () {
+    if (jaContouPlay) return;
+    jaContouPlay = true;
+    try { if (typeof fbq === 'function') fbq('trackCustom', 'VideoPlay'); } catch (e) {}
+  });
+  video.addEventListener('ended', function () {
+    try { if (typeof fbq === 'function') fbq('trackCustom', 'VideoComplete'); } catch (e) {}
+  });
+})();
+
 function enviarAniversario() {
   const nome = document.getElementById('aniv-nome').value.trim();
   const data = document.getElementById('aniv-data').value;
