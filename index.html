@@ -183,19 +183,6 @@ footer a { color: #42A5F5; text-decoration: none; }
 .cta-fixa .btn-reservar { width: 100%; margin: 0; }
 body { padding-bottom: 92px; }
 
-/* AÇÕES DO HERO (botões condições / endereço / vídeo / reservar) */
-.hero-actions {
-  display: flex; flex-wrap: wrap; justify-content: center;
-  gap: 10px; margin-top: 28px; margin-bottom: 20px;
-}
-.btn-pill {
-  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.25);
-  color: #fff; padding: 10px 18px; border-radius: 30px;
-  font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 600;
-  cursor: pointer; transition: background 0.2s, transform 0.2s;
-}
-.btn-pill:hover { background: rgba(255,255,255,0.16); transform: translateY(-2px); }
-
 .btn-reservar {
   background: linear-gradient(90deg, #25D366, #1EB858);
   border: none; border-radius: 14px;
@@ -207,7 +194,14 @@ body { padding-bottom: 92px; }
 }
 .btn-reservar:hover { transform: translateY(-2px); }
 
-/* MODAIS (Condições / Endereço / Vídeo) */
+/* VÍDEO DO TOUR (seção normal, rolando a página) */
+.tour-video-section { padding: 48px 24px; max-width: 500px; margin: 0 auto; text-align: center; }
+.tour-video-section h2 {
+  font-family: 'Oswald', sans-serif; font-size: 1.8rem;
+  margin-bottom: 24px; color: #fff;
+}
+
+/* CAIXINHA (modal) do formulário de reserva, aberta pelo botão fixo */
 .modal-overlay {
   display: none; position: fixed; inset: 0; z-index: 100;
   background: rgba(6,14,29,0.92);
@@ -217,12 +211,9 @@ body { padding-bottom: 92px; }
 .modal-box {
   background: #0d1f3c; border: 1px solid #1e3a6e;
   border-radius: 20px; padding: 40px 24px 24px;
-  max-width: 600px; width: 100%; max-height: 85vh; overflow-y: auto;
+  max-width: 480px; width: 100%; max-height: 85vh; overflow-y: auto;
   position: relative;
 }
-.modal-box .beneficios, .modal-box .extras { padding: 0; max-width: none; background: transparent; }
-.modal-box .extras { margin-top: 32px; }
-.modal-box-video { max-width: 480px; padding: 16px; }
 .modal-close {
   position: absolute; top: 14px; right: 14px;
   background: rgba(255,255,255,0.1); border: none; color: #fff;
@@ -235,7 +226,7 @@ body { padding-bottom: 92px; }
 
 <!-- CTA FIXO: sempre visível, não depende de rolar até achar -->
 <div class="cta-fixa">
-  <button type="button" class="btn-reservar" onclick="document.getElementById('form-section').scrollIntoView({behavior:'smooth'})">
+  <button type="button" class="btn-reservar" onclick="abrirModal('modalReserva')">
     🎂 Quero Reservar Meu Aniversário
   </button>
 </div>
@@ -255,19 +246,8 @@ body { padding-bottom: 92px; }
     <div class="value">🍹 1 Drink Grátis para você!</div>
   </div>
 
-  <div class="hero-actions">
-    <button type="button" class="btn-pill" onclick="abrirModal('modalCondicoes')">📋 Condições</button>
-    <button type="button" class="btn-pill" onclick="abrirModal('modalHorarios')">🕒 Horários</button>
-    <button type="button" class="btn-pill" onclick="falarConosco()">💬 Fale Conosco</button>
-    <button type="button" class="btn-pill" onclick="abrirVideo()">🎥 Conheça o bar</button>
-  </div>
 
 </section>
-
-<!-- MODAL: CONDIÇÕES -->
-<div class="modal-overlay" id="modalCondicoes">
-  <div class="modal-box">
-    <button type="button" class="modal-close" onclick="fecharModal('modalCondicoes')">✕</button>
 
 <!-- TABELA DE BENEFÍCIOS -->
 <section class="beneficios">
@@ -332,73 +312,56 @@ body { padding-bottom: 92px; }
   </div>
 </section>
 
-  </div>
-</div>
-<!-- FIM MODAL CONDIÇÕES -->
-
-<!-- MODAL: HORÁRIOS -->
-<div class="modal-overlay" id="modalHorarios">
-  <div class="modal-box">
-    <button type="button" class="modal-close" onclick="fecharModal('modalHorarios')">✕</button>
-    <h2 style="font-family:'Oswald',sans-serif;font-size:1.6rem;margin-bottom:20px;text-align:center;">🕒 Horário de Funcionamento</h2>
-    <p style="text-align:center;margin-bottom:10px;font-size:1.05rem;">Terça a sexta: <strong>17h às 01h</strong></p>
-    <p style="text-align:center;margin-bottom:10px;font-size:1.05rem;">Sábado: <strong>12h às 01h30</strong></p>
-    <p style="text-align:center;font-size:1.05rem;">Domingo: <strong>12h às 22h</strong></p>
-  </div>
-</div>
-<!-- FIM MODAL HORÁRIOS -->
-
-<!-- MODAL: VÍDEO TOUR -->
-<div class="modal-overlay" id="modalVideo">
-  <div class="modal-box modal-box-video">
-    <button type="button" class="modal-close" onclick="fecharVideo()">✕</button>
-    <video id="tourVideo" controls playsinline preload="none" style="width:100%;border-radius:12px;display:block;">
-      <source src="videos/conheca-o-bar.mp4" type="video/mp4">
-    </video>
-  </div>
-</div>
-<!-- FIM MODAL VÍDEO -->
-
-<!-- FORMULÁRIO -->
-<section class="form-section" id="form-section">
-  <h2>Quero reservar meu aniversário!</h2>
-  <p class="sub">Preencha abaixo e vamos te chamar no WhatsApp 💙</p>
-
-  <div class="form-card">
-    <div class="form-group">
-      <label>Seu nome *</label>
-      <input type="text" id="aniv-nome" placeholder="Nome do aniversariante">
-    </div>
-    <div class="form-group">
-      <label>Data da comemoração *</label>
-      <input type="date" id="aniv-data">
-    </div>
-    <div class="form-group">
-      <label>Estimativa de convidados *</label>
-      <select id="aniv-pessoas">
-        <option value="">Selecione</option>
-        <option value="Até 10 pessoas">Até 10 pessoas</option>
-        <option value="Entre 10 e 20 pessoas">Entre 10 e 20 pessoas</option>
-        <option value="Entre 20 e 30 pessoas">Entre 20 e 30 pessoas</option>
-        <option value="Entre 30 e 40 pessoas">Entre 30 e 40 pessoas</option>
-        <option value="Entre 40 e 60 pessoas">Entre 40 e 60 pessoas</option>
-        <option value="Entre 60 e 80 pessoas">Entre 60 e 80 pessoas</option>
-        <option value="Entre 80 e 100 pessoas">Entre 80 e 100 pessoas</option>
-        <option value="Mais de 100 pessoas">Mais de 100 pessoas</option>
-      </select>
-    </div>
-
-    <button class="btn-zap" onclick="enviarAniversario()">
-      💬 Confirmar pelo WhatsApp
-    </button>
-  </div>
+<!-- VÍDEO: CONHEÇA O BAR (seção normal, rolando a página) -->
+<section class="tour-video-section">
+  <h2>🎥 Conheça o Bar</h2>
+  <video id="tourVideo" controls playsinline preload="none" style="width:100%;border-radius:12px;display:block;">
+    <source src="videos/conheca-o-bar.mp4" type="video/mp4">
+  </video>
 </section>
 
+<!-- MODAL: FORMULÁRIO DE RESERVA (abre ao clicar no botão fixo) -->
+<div class="modal-overlay" id="modalReserva">
+  <div class="modal-box">
+    <button type="button" class="modal-close" onclick="fecharModal('modalReserva')">✕</button>
+    <h2 style="font-family:'Oswald',sans-serif;font-size:1.6rem;text-align:center;margin-bottom:8px;">Quero reservar meu aniversário!</h2>
+    <p style="text-align:center;color:#90CAF9;margin-bottom:24px;">Preencha abaixo e vamos te chamar no WhatsApp 💙</p>
+
+    <div class="form-card" style="border:none;padding:0;">
+      <div class="form-group">
+        <label>Seu nome *</label>
+        <input type="text" id="aniv-nome" placeholder="Nome do aniversariante">
+      </div>
+      <div class="form-group">
+        <label>Data da comemoração *</label>
+        <input type="date" id="aniv-data">
+      </div>
+      <div class="form-group">
+        <label>Estimativa de convidados *</label>
+        <select id="aniv-pessoas">
+          <option value="">Selecione</option>
+          <option value="Até 10 pessoas">Até 10 pessoas</option>
+          <option value="Entre 10 e 20 pessoas">Entre 10 e 20 pessoas</option>
+          <option value="Entre 20 e 30 pessoas">Entre 20 e 30 pessoas</option>
+          <option value="Entre 30 e 40 pessoas">Entre 30 e 40 pessoas</option>
+          <option value="Entre 40 e 60 pessoas">Entre 40 e 60 pessoas</option>
+          <option value="Entre 60 e 80 pessoas">Entre 60 e 80 pessoas</option>
+          <option value="Entre 80 e 100 pessoas">Entre 80 e 100 pessoas</option>
+          <option value="Mais de 100 pessoas">Mais de 100 pessoas</option>
+        </select>
+      </div>
+
+      <button class="btn-zap" onclick="enviarAniversario()">
+        💬 Confirmar pelo WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
 <footer>
-  <p><a href="/">← Voltar ao site principal</a></p>
-  <br>
-  <p>Seu Pai Bar & Drinkeria — Av. Otacílio Negrão de Lima, 17736, Jardim Atlântico, BH-MG</p>
-  <p>Lagoa da Pampulha | <a href="https://instagram.com/seupaibar" target="_blank">@seupaibar</a></p>
+  <p style="margin-bottom:14px;"><a href="https://wa.me/553136572609" target="_blank">💬 WhatsApp</a> &nbsp;|&nbsp; <a href="https://www.instagram.com/seupaibar/" target="_blank">📸 @seupaibar</a> &nbsp;|&nbsp; <a href="/happy-hour.html">🍻 Confira nosso Happy Hour</a></p>
+  <p>Seu Pai Bar &amp; Drinkeria — Av. Otacílio Negrão de Lima, 17736, Jardim Atlântico, Belo Horizonte - MG, 31555-016</p>
+  <p>Lagoa da Pampulha</p>
   <p>📞 <a href="https://wa.me/553136572609" target="_blank">(31) 3657-2609</a></p>
   <p style="margin-bottom:2px;">🕒 Terça a sexta: 17h às 01h</p>
   <p style="margin-bottom:2px;">🕒 Sábado: 12h às 01h30</p>
@@ -411,10 +374,11 @@ body { padding-bottom: 92px; }
   <p style="font-size:10px;opacity:0.6">Promoção válida por tempo indeterminado, sujeita a alterações sem aviso prévio. Consulte disponibilidade.</p>
   <br>
   <p><a href="/privacidade.html">Política de Privacidade</a></p>
+  <p style="font-size:11px;color:#2D3748;letter-spacing:1px;margin-top:10px;">© 2026 SEU PAI BAR &amp; DRINKERIA — TODOS OS DIREITOS RESERVADOS</p>
 </footer>
 
 <script>
-// Abre/fecha os modais (Condições, Endereço, Vídeo)
+// Abre/fecha a caixinha (modal) do formulário de reserva
 function abrirModal(id) {
   document.getElementById(id).style.display = 'flex';
   document.body.style.overflow = 'hidden';
@@ -422,30 +386,6 @@ function abrirModal(id) {
 function fecharModal(id) {
   document.getElementById(id).style.display = 'none';
   document.body.style.overflow = '';
-}
-
-// Vídeo real do tour do bar — arquivo separado (videos/conheca-o-bar.mp4),
-// só carrega quando o modal é aberto, pra não pesar no carregamento inicial
-// da página (diferente do vídeo de fundo, que é só decorativo e mudo).
-function abrirVideo() {
-  abrirModal('modalVideo');
-  const video = document.getElementById('tourVideo');
-  video.currentTime = 0;
-  video.play().catch(() => {});
-}
-function fecharVideo() {
-  const video = document.getElementById('tourVideo');
-  video.pause();
-  fecharModal('modalVideo');
-}
-
-// Botão "Fale Conosco" — só conta a AÇÃO no Pixel da Meta (quantas vezes
-// foi clicado), sem guardar quem é a pessoa.
-function falarConosco() {
-  try {
-    if (typeof fbq === 'function') fbq('track', 'Contact');
-  } catch (e) {}
-  window.open('https://wa.me/553136572609?text=' + encodeURIComponent('Olá! Gostaria de mais informações sobre o Seu Pai Bar 😊'), '_blank');
 }
 
 function enviarAniversario() {
